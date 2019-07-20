@@ -1,3 +1,13 @@
+
+### Notes
+Add filterpy, opencv requirements sepeartely, using conda forge.
+
+If using conda to install dependencies use the following commands:
+```
+conda install -c conda-forge opencv
+conda install -c conda-forge filterpy
+
+
 # YOLOv3
 Pytorch implementation of real time object detection algorithm YOLOv3
 
