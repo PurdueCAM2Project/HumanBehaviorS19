@@ -20,7 +20,7 @@ def load_classes(namesfile):
     return names
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='YOLOv3 object detection')
+    parser = argparse.ArgumentParser(description='Human Behavior Analysis')
     parser.add_argument('-i', '--input', required=True, help='input image or directory or video')
     parser.add_argument('-t', '--obj-thresh', type=float, default=0.5, help='objectness threshold, DEFAULT: 0.5')
     parser.add_argument('-n', '--nms-thresh', type=float, default=0.4, help='non max suppression threshold, DEFAULT: 0.4')
