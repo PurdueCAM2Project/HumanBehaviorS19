@@ -5,7 +5,7 @@ A human behavior analyzer package
 
 
 ## Working
-!["MOT Pipeline"][/resources/pipeline.png]
+!["MOT Pipeline"](https://github.com/PurdueCAM2Project/HumanBehaviorS19/blob/master/resources/pipeline.png)
 
 *Fig. 1: The basic pipeline of the algorithm*
 
