@@ -6,7 +6,7 @@
 
 ## Installation Instructions
 
-Visit installation.md for steps to install required dependencies, and to setup the repository.
+Visit [installation.md](installation.md) for steps to install required dependencies, and to setup the repository.
 
 ## Usage
 
