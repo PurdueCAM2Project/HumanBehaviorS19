@@ -27,7 +27,7 @@ def parse_args():
     parser.add_argument('-v', '--video', action='store_true', default=False, help='flag for detecting a video input')
     parser.add_argument('--cuda', action='store_true', default=False, help='flag for running on GPU')
     parser.add_argument('-m', '--map', action='store_true',default=False, help='flag from projecting people on a map')
-    parser.add_argument('-c', '--corr', required=True, help='correspondance points for the map projection as a .txt')
+    parser.add_argument('-c', '--corr', required=False, help='correspondance points for the map projection as a .txt')
     
     args = parser.parse_args()
 
@@ -53,7 +53,7 @@ def draw_mot_bbox(img, bbox, colors, classes):
 def detect_video(model, args):
     if args.map == True:
         print("Mapping is set to true")
-        print("the name of the corr is" + args.corr)
+        print("the name of the corr is " + args.corr)
 
    # draw_bbox([frame], detection, colors, classes)
     input_size = [int(model.net_info['height']), int(model.net_info['width'])]
@@ -149,7 +149,7 @@ def detect_video(model, args):
             out.write(frame)
 
             if args.map == True:
-                print("proj on map")
+                ##
 
 
             if read_frames % 30 == 0:
