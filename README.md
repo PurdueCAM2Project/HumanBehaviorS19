@@ -5,7 +5,8 @@ A human behavior analyzer package
 
 
 ## Working
-
+!["MOT Pipeline"][resources/pipeline.png]
+*Fig. 1: The basic pipeline of the algorithm*
 
 ## Installation Instructions
 
