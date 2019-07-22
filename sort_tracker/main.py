@@ -26,7 +26,8 @@ def parse_args():
     parser.add_argument('-n', '--nms-thresh', type=float, default=0.4, help='non max suppression threshold, DEFAULT: 0.4')
     parser.add_argument('-v', '--video', action='store_true', default=False, help='flag for detecting a video input')
     parser.add_argument('--cuda', action='store_true', default=False, help='flag for running on GPU')
-
+    parser.add_argument('-m', '--map', action='store_true', default=False, help='flag from projecting people on a map')
+    
     args = parser.parse_args()
 
     return args
@@ -142,6 +143,10 @@ def detect_video(model, args):
                     draw_mot_bbox(frame, torch.from_numpy(tracking_box), colors, classes)
                 #print("------------------END BOX--------------------------")
             out.write(frame)
+
+            if args.map == True:
+                print("proj on map")
+
             if read_frames % 30 == 0:
                 print('Number of frames processed:', read_frames)
         else:
