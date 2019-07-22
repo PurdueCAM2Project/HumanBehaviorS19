@@ -14,6 +14,7 @@ Visit [installation.md](installation.md) for steps to install required dependenc
 ## Usage
 
 To use the sort tracker, use the following command
+
 `
 usage: python3 sort_tracker/main.py [-h] -i INPUT [-t OBJ_THRESH] [-n NMS_THRESH] [-o OUTDIR]
                    [-v] [-w] [--cuda] [--no-show]
@@ -36,9 +37,8 @@ optional arguments:
 `
 
 Example Usage, for tracking people in a video, and then projecting it onto a 2-D map: (When inside the sort_tracker directory)
-`
-python3 main.py --cuda -v -i input_video.avi -m -c corr_points.txt 
-`
+
+`python3 main.py --cuda -v -i input_video.avi -m -c corr_points.txt `
 
 ## Authors
 [Mohamad Alani](https://github.com/moealani)
