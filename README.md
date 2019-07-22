@@ -20,7 +20,7 @@ It starts by tracking multiple pedestrians using SORT (Simple Online Realtime Tr
 
 | Package Name  | Version No.   |
 | ------------- | ------------- |
-| OpenCV  | 3.4.2  |
+| OpenCV  | 4.1.0  |
 |  NumPy | 1.15.4 |
 |   SciPy| 1.1.0 |
 |  FilterPy |1.1.0  |
