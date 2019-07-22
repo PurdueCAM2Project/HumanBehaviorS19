@@ -2,13 +2,16 @@
 A human behavior analyzer package
 
 ## About
-Abcd
-Abcd
+This project is aimed at collecting data about human behavior through cameras. The current version is the initial implementation of the idea. The data collected includes location data for each person, based on the map provided, and actions performe by the person during those intervals. This data is present as a storyboard or a profile in the followuing format:
+
+//Insert image containing the format of the profiles
 
 ## Working
 !["MOT Pipeline"](https://github.com/PurdueCAM2Project/HumanBehaviorS19/blob/master/resources/pipeline.png)
 
 *Fig. 1: The basic pipeline of the algorithm*
+
+It starts by tracking multiple pedestrians using SORT (Simple Online Realtime Tracking). Then the frame is cropped to the dimensions of the bounding box containing each person, and is sent into an action detection algorithm (slow-fast network). ...
 
 ## Installation Instructions
 
@@ -40,7 +43,15 @@ optional arguments:
 
 Example Usage, for tracking people in a video, and then projecting it onto a 2-D map: (When inside the sort_tracker directory)
 
-```python3 main.py --cuda -v -i input_video.avi -m -c corr_points.txt ```
+```python3 main.py --cuda -v -i input_video.avi -m -j map.jpg -c corr_points.txt ```
+
+The correspondance points (present in corr_points.txt) for mapping the tracks of each person onto a map (map.jpg here) is of the format:
+<dl>
+  <code>
+    x<sub>11</sub> x<sub>12</sub> y<sub>11</sub> y<sub>12</sub>
+  </code>
+</dl
+
 
 ## Authors
 [Mohamad Alani](https://github.com/moealani)
