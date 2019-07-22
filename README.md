@@ -18,6 +18,16 @@ It starts by tracking multiple pedestrians using SORT (Simple Online Realtime Tr
 
 (The version numbers provided are the ones used while testing and development)
 
+| Package Name  | Version No.   |
+| ------------- | ------------- |
+| OpenCV  | 3.4.2  |
+|  NumPy | 1.15.4 |
+|   SciPy| 1.1.0 |
+|  FilterPy |  |
+|  Numba | 0.39.0 |
+|   Scikit-Image | 0.14.0 |
+|  Scikit-Learn | 0.19.2 |
+
 1. OpenCV       [3.4.2]
 2. NumPy        [1.15.4]
 3. SciPy        [1.1.0]
