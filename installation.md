@@ -14,9 +14,11 @@ $ conda install -c conda-forge scikit-learn=0.19.2
 $ conda install pytorch=1.0.1 torchvision=0.2.1 cudatoolkit=9.0 -c pytorch
 
 ```
----
-**NOTE**
 
-It works with almost all markdown flavours (the below blank line matters).
+
+---
+**NOTE:**
+
+For eveyones safety, do not include the '$' in the command. That is just the character at the end of the bash default text in every line
 
 ---
