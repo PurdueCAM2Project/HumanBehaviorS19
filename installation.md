@@ -1,4 +1,6 @@
-## Installation Instructions
+# Installation Instructions
+
+## Using Conda
 
 To setup a conda environment with the required packages the following steps were used in a Linux terminal:
 
@@ -15,10 +17,17 @@ $ conda install pytorch=1.0.1 torchvision=0.2.1 cudatoolkit=9.0 -c pytorch
 
 ```
 
+## Using Pip
+
+To install all the required packages usiung pip, use the following command:
+``` 
+$ pip3 install -r /path-to/requirements.txt
+$ pip3 install torch torchvision
+
+```
 
 ---
 **NOTE:**
 
-For eveyone's safety, do not include the '$' in the command. That is just the character at the end of the bash default text in every line.
-
+This assumes that CUDA has already been setup in the machine.
 ---
