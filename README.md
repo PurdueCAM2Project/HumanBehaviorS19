@@ -1,2 +1,12 @@
 # HumanBehaviorS19
-First prototype of the Human Behavior Pedestrian Analyzer
+
+## About
+
+## Working
+
+## Installation Instructions
+
+Visit installation.md for steps to install required dependencies, and to setup the repository.
+
+## Usage
+
