@@ -19,6 +19,6 @@ $ conda install pytorch=1.0.1 torchvision=0.2.1 cudatoolkit=9.0 -c pytorch
 ---
 **NOTE:**
 
-For eveyones safety, do not include the '$' in the command. That is just the character at the end of the bash default text in every line.
+For eveyone's safety, do not include the '$' in the command. That is just the character at the end of the bash default text in every line.
 
 ---
