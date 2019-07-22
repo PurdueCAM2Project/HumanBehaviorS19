@@ -48,9 +48,15 @@ Example Usage, for tracking people in a video, and then projecting it onto a 2-D
 The correspondance points (present in corr_points.txt) for mapping the tracks of each person onto a map (map.jpg here) is of the format:
 <dl>
   <code>
-    x<sub>11</sub> x<sub>12</sub> y<sub>11</sub> y<sub>12</sub>
+    x<sub>11</sub> y<sub>11</sub> x<sub>12</sub> y<sub>12</sub>
+    x<sub>21</sub> y<sub>21</sub> x<sub>22</sub> y<sub>22</sub>
+    x<sub>31</sub> y<sub>31</sub> x<sub>32</sub> y<sub>32</sub>
+    ...
+    x<sub>n1</sub> y<sub>n1</sub> x<sub>n2</sub> y<sub>n2</sub>
   </code>
-</dl
+</dl>
+
+Here, each row contains two x-y coordinate pairs. In the example above, there are n correspondance points. For row number n, for example, <dl><code>x<sub>n1</sub> y<sub>n1</sub></code></dl> are the x-y pair for a point in the video frame, and the <dl><code>x<sub>n2</sub> y<sub>n2</sub></code></dl> are the x-y pair for the same point in the image containing the map.
 
 
 ## Authors
@@ -61,6 +67,9 @@ The correspondance points (present in corr_points.txt) for mapping the tracks of
 [Dhruv Swarup](https://github.com/dhruvswarup123)
 
 [Chau Minh Nguyen](https://github.com/cnguyenm)
+
+[Nourledin Hendy](https://github.com/nhendy)
+
 
 
 
