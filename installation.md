@@ -1,5 +1,6 @@
 # Installation Instructions
 
+:trollface:
 
 ## Installing the dependencies/packages
 ### Using Conda
