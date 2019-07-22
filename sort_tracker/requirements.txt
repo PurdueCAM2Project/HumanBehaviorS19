@@ -1,4 +1,4 @@
-opencv-python
+opencv
 numpy
 scipy
 filterpy=1.4.1
