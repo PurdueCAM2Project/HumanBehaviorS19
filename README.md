@@ -13,6 +13,20 @@ This project is aimed at collecting data about human behavior through cameras. T
 
 It starts by tracking multiple pedestrians using SORT (Simple Online Realtime Tracking). Then the frame is cropped to the dimensions of the bounding box containing each person, and is sent into an action detection algorithm (slow-fast network). ...
 
+
+## Dependencies and Packages
+
+(The version numbers provided are the ones used while testing and development)
+
+1. OpenCV       [3.4.2]
+2. NumPy        [1.15.4]
+3. SciPy        [1.1.0]
+4. FilterPy     []
+5. Numba        [0.39.0]
+6. Scikit-Image [0.14.0]
+7. Scikit-Learn [0.19.2]
+
+
 ## Installation Instructions
 
 Visit [installation.md](installation.md) for steps to install required dependencies, and to setup the repository.
