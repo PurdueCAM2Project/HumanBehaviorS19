@@ -15,8 +15,7 @@ Visit [installation.md](installation.md) for steps to install required dependenc
 
 To use the sort tracker, use the following command
 
-`
-usage: python3 sort_tracker/main.py [-h] -i INPUT [-t OBJ_THRESH] [-n NMS_THRESH] [-o OUTDIR]
+`usage: python3 sort_tracker/main.py [-h] -i INPUT [-t OBJ_THRESH] [-n NMS_THRESH] [-o OUTDIR]
                    [-v] [-w] [--cuda] [--no-show]
 
 YOLOv3 object detection
@@ -33,8 +32,7 @@ optional arguments:
   -v, --video           flag for detecting a video input
   --cuda                flag for running on GPU
   -m, --map             flag for projecting detections on the map
-  -c, --corr            flag for the input file containing the correspondance points
-`
+  -c, --corr            flag for the input file containing the correspondance points`
 
 Example Usage, for tracking people in a video, and then projecting it onto a 2-D map: (When inside the sort_tracker directory)
 
