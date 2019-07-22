@@ -49,12 +49,13 @@ The correspondance points (present in corr_points.txt) for mapping the tracks of
 <dl>
   <code>x<sub>11</sub> y<sub>11</sub> x<sub>12</sub> y<sub>12</sub></code>
   
-   <code>x<sub>21</sub> y<sub>21</sub> x<sub>22</sub> y<sub>22</sub>  
-    
-   x<sub>31</sub> y<sub>31</sub> x<sub>32</sub> y<sub>32</sub>  
-    ...  
-    x<sub>n1</sub> y<sub>n1</sub> x<sub>n2</sub> y<sub>n2</sub>  
-  </code>
+  <code>x<sub>21</sub> y<sub>21</sub> x<sub>22</sub> y<sub>22</sub></code>
+  
+  <code>x<sub>31</sub> y<sub>31</sub> x<sub>32</sub> y<sub>32</sub></code>
+  
+  <code>...</code>
+  
+  <code>x<sub>n1</sub> y<sub>n1</sub> x<sub>n2</sub> y<sub>n2</sub></code>  
 </dl>
 
 Here, each row contains two x-y coordinate pairs. In the example above, there are n correspondance points. For row number n, for example, <dl><code>x<sub>n1</sub> y<sub>n1</sub></code></dl> are the x-y pair for a point in the video frame, and the <dl><code>x<sub>n2</sub> y<sub>n2</sub></code></dl> are the x-y pair for the same point in the image containing the map.
