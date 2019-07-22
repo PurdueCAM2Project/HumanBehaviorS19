@@ -1,8 +1,11 @@
 # HumanBehaviorS19
+A human behavior analyzer package
 
 ## About
+This
 
 ## Working
+
 
 ## Installation Instructions
 
@@ -10,3 +13,10 @@ Visit [installation.md](installation.md) for steps to install required dependenc
 
 ## Usage
 
+## Authors
+[Mohamad Alani](https://github.com/moealani)
+[Peter Huang](https://github.com/peterhuang88)
+[Chau Nguyen]()
+[Dhruv Swarup](https://github.com/dhruvswarup123)
+
+@dhruvswarup123
