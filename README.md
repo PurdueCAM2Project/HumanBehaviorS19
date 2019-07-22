@@ -48,11 +48,16 @@ Example Usage, for tracking people in a video, and then projecting it onto a 2-D
 The correspondance points (present in corr_points.txt) for mapping the tracks of each person onto a map (map.jpg here) is of the format:
 <dl>
   <code>
-    x<sub>11</sub> y<sub>11</sub> x<sub>12</sub> y<sub>12</sub></br>
-    x<sub>21</sub> y<sub>21</sub> x<sub>22</sub> y<sub>22</sub></br>
-    x<sub>31</sub> y<sub>31</sub> x<sub>32</sub> y<sub>32</sub></br>
-    ...</br>
+    x<sub>11</sub> y<sub>11</sub> x<sub>12</sub> y<sub>12</sub>
+    
+    x<sub>21</sub> y<sub>21</sub> x<sub>22</sub> y<sub>22</sub>
+    
+    x<sub>31</sub> y<sub>31</sub> x<sub>32</sub> y<sub>32</sub>
+    
+    ...
+    
     x<sub>n1</sub> y<sub>n1</sub> x<sub>n2</sub> y<sub>n2</sub>
+    
   </code>
 </dl>
 
