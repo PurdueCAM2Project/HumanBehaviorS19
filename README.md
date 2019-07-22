@@ -55,7 +55,7 @@ The correspondance points (present in corr_points.txt) for mapping the tracks of
   <code>x<sub>n1</sub> y<sub>n1</sub> x<sub>n2</sub> y<sub>n2</sub></code>  
 </dl>
 
-Here, each row contains two x-y coordinate pairs. In the example above, there are n correspondance points. For row number n, for example, <dl><code>x<sub>n1</sub> y<sub>n1</sub></code></dl> are the x-y pair for a point in the video frame, and the <dl><code>x<sub>n2</sub> y<sub>n2</sub></code></dl> are the x-y pair for the same point in the image containing the map.
+Here, each row contains two x-y coordinate pairs. In the example above, there are n correspondance points. For row number n, for example,<dl><code>x<sub>n1</sub> y<sub>n1</sub></code></dl>are the x-y pair for a point in the video frame, and the <dl><code>x<sub>n2</sub> y<sub>n2</sub></code></dl> are the x-y pair for the same point in the image containing the map.
 
 
 ## Authors
