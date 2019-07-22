@@ -16,10 +16,9 @@ Visit [installation.md](installation.md) for steps to install required dependenc
 To use the sort tracker, use the following command
 
 ```
-usage: python3 sort_tracker/main.py [-h] -i INPUT [-t OBJ_THRESH] [-n NMS_THRESH] [-o OUTDIR]
-                   [-v] [-w] [--cuda] [--no-show]
+usage: python3 sort_tracker/main.py [-h] [-v] -i INPUT [-t OBJ_THRESH] [-n NMS_THRESH]  [-w] [--cuda] [--no-show]
 
-YOLOv3 object detection
+Human Behavior Analysis
 
 optional arguments:
   -h, --help            show this help message and exit
