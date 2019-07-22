@@ -29,11 +29,13 @@ $ pip3 install torch torchvision
 ```
 $ git clone https://github.com/PurdueCAM2Project/HumanBehaviorS19.git
 $ cd sort_tracker
-$ python3 main.py --cuda -v -i input_video.avi -m -j map.jpg -c corr_points.txt #Based on the example in the [README.md](https://github.com/PurdueCAM2Project/HumanBehaviorS19/blob/master/README.md)
+$ python3 main.py --cuda -v -i input_video.avi -m -j map.jpg -c corr_points.txt         #Based on the example in the main README
 ```
 
 ---
+
 **NOTE:**
 
 This assumes that CUDA has already been setup in the machine.
+
 ---
