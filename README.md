@@ -78,15 +78,11 @@ Here, each row contains two x-y coordinate pairs. In the example above, there ar
 
 
 ## Authors
-[Mohamad Alani](https://github.com/moealani)
-
-[Peter Huang](https://github.com/peterhuang88)
-
-[Dhruv Swarup](https://github.com/dhruvswarup123)
-
-[Chau Minh Nguyen](https://github.com/cnguyenm)
-
-[Nourledin Hendy](https://github.com/nhendy)
+-[Mohamad Alani](https://github.com/moealani)
+-[Peter Huang](https://github.com/peterhuang88)
+-[Dhruv Swarup](https://github.com/dhruvswarup123)
+-[Chau Minh Nguyen](https://github.com/cnguyenm)
+-[Nourledin Hendy](https://github.com/nhendy)
 
 ## References
 - Paper [YOLOv3: An Incremental Improvement](https://pjreddie.com/media/files/papers/YOLOv3.pdf)
