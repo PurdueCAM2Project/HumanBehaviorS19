@@ -34,6 +34,6 @@ $ pip3 install torch torchvision
 
 **NOTE:**
 
-This assumes that CUDA has already been setup in the machine.
+This assumes that CUDA 9 has already been setup in the machine.
 
 ---
