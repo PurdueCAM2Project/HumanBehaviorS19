@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import torch.backends.cudnn as cudnn
 from lib.dataset import VideoDataset
 from lib import slowfastnet
+import torchvision
 import cv2
 # put parameters of slowfast into config.py file
 from config import params
@@ -20,7 +21,9 @@ def load_vid(filename):
    
         # get frame, resize
         new_frame = cv2.resize(frame, (112,112))  
-
+        
+        # normalize
+        new_frame = (new_frame - 128.0)/128.0
         # place into a numpy array
         buff[0, count] = new_frame
         count += 1
@@ -31,11 +34,10 @@ def load_vid(filename):
     # normalize array
     # convert from [D, H, W, C] to [C, D, H, W] for pytorch
     # buff = buff.transpose((3,0,1,2))
+    #norm = torchvision.transforms.Normalize(mean=0, std=0.1)
+    #buff = norm(buff)
     buff = buff.transpose((0,4,1,2,3))
     print(buff.shape)
-    #new_buff = np.zeros(1)
-    #new_buff[0] = buff
-     
 
     return torch.from_numpy(buff)
 
@@ -62,22 +64,34 @@ def main():
 
     # TODO: load a dataset
 
+
     # /local/b/cam2/data/HumanBehavior/slowfasttest/v_Biking_g09_c01.avi
+    testset = '/local/b/cam2/data/HumanBehavior/UCFsample'
     
 
     # data = torch.randn(1,3,10,112,112)
     
-    data = load_vid('/local/b/cam2/data/HumanBehavior/slowfasttest/v_Biking_g09_c01.avi')
-    print(data.shape)
+    # data = load_vid('/local/b/cam2/data/HumanBehavior/slowfasttest/v_Biking_g04_c01.avi')
+    data = DataLoader(VideoDataset(testset, mode='validation', clip_len=64,frame_sample_rate=1),batch_size=5, shuffle=False,num_workers=4)
+    # print(data.shape)
+    
+    model.eval()
+    for step, (inputs, label) in enumerate(data):
+        # print(inputs.shape)
+        output = model(inputs)
+        print(torch.argmax(output))
+    
+        if step > 5:
+            break
 
     
     # get output from model
-    output = model(data)
-    print(output.shape)
-    print(output) 
+    #output = model(data)
+    #print(output.shape)
+    #print(output) 
 
-    prediction = torch.argmax(output)
-    print(prediction)
+    #prediction = torch.argmax(output)
+    #print(prediction)
 
 
 if __name__ == '__main__':
