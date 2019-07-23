@@ -70,7 +70,8 @@ def detect_video(model, args):
                 pts_src = np.append(pts_src, np.array([[int(splitLine[0]), int(splitLine[2])]]) , axis=0)
                 pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
                 
-                h, status = cv2.findHomography(pts_src, pts_dst)
+            
+            h, status = cv2.findHomography(pts_src, pts_dst)
                 #imgcv = cv2.imread(args.map)
                 
                 #print('*********************')
@@ -175,8 +176,8 @@ def detect_video(model, args):
                     if  args.map == True:
                         xMid = (tracking_box[0]+tracking_box[2]) / 2
                         yMid = (tracking_box[1]+tracking_box[3]) / 2 
-                        a = np.array([xMid, yMid], dtype='float32')
-                        #a = np.array([a])
+                        a = np.array([[xMid, yMid]], dtype='float32')
+                        a = np.array([a])
                         ret = cv2.perspectiveTransform(a, h)
                         print (ret)
                         #cv2.line(imgcv, ret, ret, colors[tracking_box[-1]%len(colors)])
