@@ -71,7 +71,7 @@ def detect_video(model, args):
                 #print('-----------')
                 #print(pts_dst)
                 #print('*********************')
-            
+
 
 
    # draw_bbox([frame], detection, colors, classes)
@@ -168,11 +168,20 @@ def detect_video(model, args):
             out.write(frame)
 
             if args.map == True:
-                ##
+                pass
 
-
-                if read_frames % 30 == 0:
+            if read_frames % 30 == 0:
                     print('Number of frames processed:', read_frames)
+                    
+                    # Save frames into folders
+                    # for v, k in objDict.items():
+                    #     i = 0
+                    #     for ks in k:
+                    #         path = "/home/shay/a/malani/cam2/HumanBehaviorS19/sort_tracker/" + str(v)
+                    #         try: os.mkdir(path)
+                    #         except: pass
+                    #         img = cv2.imwrite(os.path.join(path , str(i)+'.jpg'), ks)
+                    #         i+=1
         else:
             break
 
