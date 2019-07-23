@@ -54,8 +54,13 @@ def detect_video(model, args):
     objDict = dict() # dict for all objects and frames
 
     if args.map == True:
-        print("Mapping is set to true")
-        print("the name of the corr is " + args.corr)
+        print("Mapping is on...")
+        with open(args.corr, "r") as f:
+            txt = f.read()
+            split = txt.split(" ")
+            print(split)
+            exit()
+        
 
    # draw_bbox([frame], detection, colors, classes)
     input_size = [int(model.net_info['height']), int(model.net_info['width'])]
