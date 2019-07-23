@@ -1,6 +1,6 @@
 params = dict()
 
-params['num_classes'] = 101
+params['num_classes'] = 3
 
 params['dataset'] = '/local/b/cam2/data/HumanBehavior/UCF101-Split'
 
@@ -12,7 +12,7 @@ params['learning_rate'] = 1e-2
 params['momentum'] = 0.9
 params['weight_decay'] = 1e-5
 params['display'] = 10
-params['pretrained'] = './weights/clip_len_64frame_sample_rate_1_checkpoint_9.pth.tar'
+params['pretrained'] = './weights/clip_len_64frame_sample_rate_1_checkpoint_49.pth.tar'
 params['gpu'] = [0]
 params['log'] = 'log'
 params['save_path'] = 'UCF101'
