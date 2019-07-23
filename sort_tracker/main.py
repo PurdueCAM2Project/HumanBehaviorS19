@@ -27,6 +27,7 @@ def parse_args():
     parser.add_argument('-v', '--video', action='store_true', default=False, help='flag for detecting a video input')
     parser.add_argument('--cuda', action='store_true', default=False, help='flag for running on GPU')
     parser.add_argument('-m', '--map', action='store_true',default=False, help='flag from projecting people on a map')
+    parser.add_argument('-j', '--map_img', required=False, help='flag for adding a path to the image containing the map')
     parser.add_argument('-c', '--corr', required=False, help='correspondance points for the map projection as a .txt')
 
     args = parser.parse_args()
