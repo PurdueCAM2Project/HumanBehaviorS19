@@ -21,14 +21,13 @@ def load_classes(namesfile):
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Human Behavior Analysis')
-    parser.add_argument('-i', '--input', required=True, help='input image or directory or video')
     parser.add_argument('-t', '--obj-thresh', type=float, default=0.5, help='objectness threshold, DEFAULT: 0.5')
     parser.add_argument('-n', '--nms-thresh', type=float, default=0.4, help='non max suppression threshold, DEFAULT: 0.4')
-    parser.add_argument('-v', '--video', action='store_true', default=False, help='flag for detecting a video input')
+    parser.add_argument('-v', '--video', required=True, help='flag for adding a video input')
     parser.add_argument('--cuda', action='store_true', default=False, help='flag for running on GPU')
     parser.add_argument('-m', '--map', action='store_true',default=False, help='flag from projecting people on a map')
-    parser.add_argument('-j', '--map_img', required=False, help='flag for adding a path to the image containing the map')
-    parser.add_argument('-c', '--corr', required=False, help='correspondance points for the map projection as a .txt')
+    parser.add_argument('-j', '--map_img', required='-m', help='flag for adding a path to the image containing the map')
+    parser.add_argument('-c', '--corr', required='-m', help='correspondance points for the map projection as a .txt')
 
     args = parser.parse_args()
 
