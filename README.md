@@ -56,6 +56,7 @@ optional arguments:
   -v, --video           flag for detecting a video input
   --cuda                flag for running on GPU
   -m, --map             flag for projecting detections on the map
+  -j, --map_img         flag for adding a path to the image containing the map
   -c, --corr            flag for the input file containing the correspondance points
   ```
 
