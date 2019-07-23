@@ -54,8 +54,25 @@ def detect_video(model, args):
     objDict = dict() # dict for all objects and frames
 
     if args.map == True:
-        print("Mapping is set to true")
-        print("the name of the corr is " + args.corr)
+        print("Mapping is on...")
+
+        pts_src = np.empty([0,2])
+        pts_dst = np.empty([0,2])
+
+        with open(args.corr, "r") as f:
+            txt = f.read()
+            lines = txt.splitlines()
+            for line in lines:
+                splitLine = line.split(' ')
+                pts_src = np.append(pts_src, np.array([[int(splitLine[0]), int(splitLine[2])]]) , axis=0)
+                pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
+                print('*********************')
+                print(pts_src)
+                print('-----------')
+                print(pts_dst)
+                print('*********************')
+            exit()
+
 
    # draw_bbox([frame], detection, colors, classes)
     input_size = [int(model.net_info['height']), int(model.net_info['width'])]
@@ -63,7 +80,7 @@ def detect_video(model, args):
     colors = pkl.load(open("yolo_resources/pallete", "rb"))
     classes = load_classes("yolo_resources/coco.names")
     colors = [colors[1]]
-    cap = cv2.VideoCapture(args.input)
+    cap = cv2.VideoCapture(args.video)
     #output_path = osp.join(args.outdir, 'det_' + osp.basename(args.input).rsplit('.')[0] + '.avi')
 
     width, height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -146,11 +163,6 @@ def detect_video(model, args):
                 #print("output: ", tracking_boxes)
                 #print("-------------------NEW BOX-------------------------")
                 for tracking_box in tracking_boxes:
-                    objDict[int(tracking_box[4])]=[ frame[int(tracking_box[0]):int(tracking_box[2]), int(tracking_box[1]):int(tracking_box[3]), : ] ] #Store frames here [x,y,w,h,channel]
-                    print(int(tracking_box[0]), int(tracking_box[2]), "T BOX")
-                    for key, val in objDict.items():
-                        print(key, val)
-                    exit()
                     draw_mot_bbox(frame, torch.from_numpy(tracking_box), colors, classes)
                 #print("------------------END BOX--------------------------")
             out.write(frame)
