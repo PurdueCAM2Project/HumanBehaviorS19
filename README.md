@@ -40,29 +40,29 @@ Visit [installation.md](installation.md) for steps to install required dependenc
 To use the sort tracker, use the following command
 
 ```
-usage: python3 sort_tracker/main.py [-h] [-v] -i INPUT [-t OBJ_THRESH] [-n NMS_THRESH]  [-w] [--cuda] [--no-show]
+usage: main.py [-h] [-t OBJ_THRESH] [-n NMS_THRESH] -v VIDEO [--cuda] [-m]
+               [-i IMG] [-c CORR]
 
 Human Behavior Analysis
 
 optional arguments:
   -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        input image or directory or video
   -t OBJ_THRESH, --obj-thresh OBJ_THRESH
                         objectness threshold, DEFAULT: 0.5
   -n NMS_THRESH, --nms-thresh NMS_THRESH
                         non max suppression threshold, DEFAULT: 0.4
-                        output directory, DEFAULT: detection/
-  -v, --video           flag for detecting a video input
+  -v VIDEO, --video VIDEO
+                        flag for adding a video input
   --cuda                flag for running on GPU
-  -m, --map             flag for projecting detections on the map
-  -j, --map_img         flag for adding a path to the image containing the map
-  -c, --corr            flag for the input file containing the correspondance points
+  -m, --map             flag from projecting people on a map
+  -i IMG, --img IMG     flag for adding a path to the image containing the map
+  -c CORR, --corr CORR  correspondance points for the map projection as a .txt
   ```
+  
 
 Example Usage, for tracking people in a video, and then projecting it onto a 2-D map: (When inside the sort_tracker directory)
 
-```python3 main.py --cuda -v -i input_video.avi -m -j map.jpg -c corr_points.txt ```
+```python3 main.py --cuda -v input_video.avi -m -i map.jpg -c corr_points.txt ```
 
 The correspondance points (present in corr_points.txt) for mapping the tracks of each person onto a map (map.jpg here) is of the format:
 
