@@ -68,7 +68,6 @@ The correspondance points (present in corr_points.txt) for mapping the tracks of
 
 <pre><code>
   x<sub>11</sub> y<sub>11</sub> x<sub>12</sub> y<sub>12</sub>
-  
   x<sub>21</sub> y<sub>21</sub> x<sub>22</sub> y<sub>22</sub>
   x<sub>31</sub> y<sub>31</sub> x<sub>32</sub> y<sub>32</sub>
   ...
