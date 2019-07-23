@@ -41,7 +41,8 @@ def draw_mot_bbox(img, bbox, colors, classes):
     p1 = tuple(bbox[0:2].int())
     p2 = tuple(bbox[2:4].int())
 
-    color = random.choice(colors)
+    color = colors[label % len(colors)] if label is not None else colors[0]
+    
     cv2.rectangle(img, p1, p2, color, 2)
     text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 1, 1)[0]
     p3 = (p1[0], p1[1] - text_size[1] - 4)
@@ -59,13 +60,17 @@ def detect_video(model, args):
         pts_src = np.empty([0,2])
         pts_dst = np.empty([0,2])
 
-        #with open(args.corr, "r") as f:
-            #txt = f.read()
-            #lines = txt.splitlines()
-            #for line in lines:
-                #splitLine = line.split(' ')
-                #pts_src = np.append(pts_src, np.array([[int(splitLine[0]), int(splitLine[2])]]) , axis=0)
-                #pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
+        with open(args.corr, "r") as f:
+            txt = f.read()
+            lines = txt.splitlines()
+            for line in lines:
+                splitLine = line.split(' ')
+                pts_src = np.append(pts_src, np.array([[int(splitLine[0]), int(splitLine[2])]]) , axis=0)
+                pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
+                
+                h, status = cv2.findHomography(pts_src, pts_dst)
+                imgcv = cv2.imread(args.map)
+                
                 #print('*********************')
                 #print(pts_src)
                 #print('-----------')
@@ -79,7 +84,7 @@ def detect_video(model, args):
 
     colors = pkl.load(open("yolo_resources/pallete", "rb"))
     classes = load_classes("yolo_resources/coco.names")
-    colors = [colors[1]]
+    #colors = [colors[1]]
     cap = cv2.VideoCapture(args.video)
     #output_path = osp.join(args.outdir, 'det_' + osp.basename(args.input).rsplit('.')[0] + '.avi')
 
@@ -164,11 +169,19 @@ def detect_video(model, args):
                 #print("-------------------NEW BOX-------------------------")
                 for tracking_box in tracking_boxes:
                     draw_mot_bbox(frame, torch.from_numpy(tracking_box), colors, classes)
+                    
+                    if  args.map == True:
+                        xMid = (tracking_box[0]+tracking_box[2]) / 2
+                        yMid = (tracking_box[1]+tracking_box[3]) / 2 
+                        a = np.array([xMid, yMid], dtype='float32')
+                        #a = np.array([a])
+                        ret = cv2.perspectiveTransform(a, h)
+                        print (ret)
+                        #cv2.line(imgcv, ret, ret, colors[tracking_box[-1]%len(colors)])
+                        exit()
+
                 #print("------------------END BOX--------------------------")
             out.write(frame)
-
-            if args.map == True:
-                pass
 
             if read_frames % 30 == 0:
                     print('Number of frames processed:', read_frames)
