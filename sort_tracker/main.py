@@ -26,8 +26,8 @@ def parse_args():
     parser.add_argument('-v', '--video', required=True, help='flag for adding a video input')
     parser.add_argument('--cuda', action='store_true', default=False, help='flag for running on GPU')
     parser.add_argument('-m', '--map', action='store_true',default=False, help='flag from projecting people on a map')
-    parser.add_argument('-j', '--map_img', required='-m', help='flag for adding a path to the image containing the map')
-    parser.add_argument('-c', '--corr', required='-m', help='correspondance points for the map projection as a .txt')
+    parser.add_argument('-i', '--img', required=False, help='flag for adding a path to the image containing the map')
+    parser.add_argument('-c', '--corr', required=False, help='correspondance points for the map projection as a .txt')
 
     args = parser.parse_args()
 
@@ -36,12 +36,12 @@ def parse_args():
 def draw_mot_bbox(img, bbox, colors, classes):
     #img = imgs[int(bbox[0])]
     # label = classes[int(bbox[-1])]
-    label = int(bbox[-1])
-    label = "Object " + str(label)
+    labelInt = int(bbox[-1])
+    label = "Object " + str(labelInt)
     p1 = tuple(bbox[0:2].int())
     p2 = tuple(bbox[2:4].int())
 
-    color = colors[label % len(colors)] if label is not None else colors[0]
+    color = colors[labelInt % len(colors)] if labelInt is not None else colors[0]
     
     cv2.rectangle(img, p1, p2, color, 2)
     text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 1, 1)[0]
@@ -56,7 +56,9 @@ def detect_video(model, args):
 
     if args.map == True:
         print("Mapping is on...")
-
+        if (args.corr is None or args.img is None):
+            print ("ERROR: -c and -j flag required with the -m flag")
+            exit()
         pts_src = np.empty([0,2])
         pts_dst = np.empty([0,2])
 
@@ -69,7 +71,7 @@ def detect_video(model, args):
                 pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
                 
                 h, status = cv2.findHomography(pts_src, pts_dst)
-                imgcv = cv2.imread(args.map)
+                #imgcv = cv2.imread(args.map)
                 
                 #print('*********************')
                 #print(pts_src)
