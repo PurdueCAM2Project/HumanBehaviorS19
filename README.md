@@ -91,8 +91,6 @@ Here, each row contains two x-y coordinate pairs. In the example above, there ar
 ## References
 - Paper [YOLOv3: An Incremental Improvement](https://pjreddie.com/media/files/papers/YOLOv3.pdf)
 - Paper [Website](https://pjreddie.com/darknet/yolo/)
-- [Tutorial](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/)
+- YOLOv3 [Tutorial](https://blog.paperspace.com/how-to-implement-a-yolo-object-detector-in-pytorch/)
 - Paper [SlowFast Networks for Video Recognition](https://arxiv.org/abs/1812.03982)
-
-
-
+- Paper [Simple Online and Realtime Tracking](https://arxiv.org/abs/1602.00763)
