@@ -59,19 +59,19 @@ def detect_video(model, args):
         pts_src = np.empty([0,2])
         pts_dst = np.empty([0,2])
 
-        with open(args.corr, "r") as f:
-            txt = f.read()
-            lines = txt.splitlines()
-            for line in lines:
-                splitLine = line.split(' ')
-                pts_src = np.append(pts_src, np.array([[int(splitLine[0]), int(splitLine[2])]]) , axis=0)
-                pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
-                print('*********************')
-                print(pts_src)
-                print('-----------')
-                print(pts_dst)
-                print('*********************')
-            exit()
+        #with open(args.corr, "r") as f:
+            #txt = f.read()
+            #lines = txt.splitlines()
+            #for line in lines:
+                #splitLine = line.split(' ')
+                #pts_src = np.append(pts_src, np.array([[int(splitLine[0]), int(splitLine[2])]]) , axis=0)
+                #pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
+                #print('*********************')
+                #print(pts_src)
+                #print('-----------')
+                #print(pts_dst)
+                #print('*********************')
+            
 
 
    # draw_bbox([frame], detection, colors, classes)
