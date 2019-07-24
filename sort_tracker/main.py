@@ -14,6 +14,76 @@ import sys
 from datetime import datetime
 from sort.sort import *
 
+# SlowFast Imports
+import torch.backends.cudnn as cudnn
+from SlowFast.lib import slowfastnet
+import torchvision
+import cv2
+import numpy as np
+import torch
+from torch import nn, optim
+from config import params
+
+def openSlowFast():
+    """
+    Opens SlowFast Model
+    Return: SlowFast PyTorch model
+    """
+    print("Loading SlowFast Model")
+
+    # load model
+    model = slowfastnet.resnet50(class_num=params['num_classes'])
+
+    # load pretrained weights into model
+    pretrained_dict = torch.load(params['pretrained'], map_location='cpu')
+    try:
+        model_dict = model.module.state_dict()
+    except AttributeError:
+        print("error when loading weights")
+        model_dict = model.state_dict()
+    
+    pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
+    model_dict.update(pretrained_dict)
+    model.load_state(model_dict)
+
+    # set gpu stuff? TODO: what does this actually do
+    model = model.cuda(params['gpu'][0])
+    model = nn.DataParallel(model, device_ids = params['gpu'])
+
+    return model
+
+def action_input(objDict):
+    classDict = dict() # dict for all objects and frames
+    # open pytorch model and set to eval mode
+    model = openSlowFast()
+    model.eval() 
+
+    # for each list of frames in the objDict
+    for key, values in objDict.items():
+        # create a numpy array with all frames
+        buff = np.empty((1,len(values),112,112,3), np.dtype('float32'))
+        count = 0 
+        print(values[0].shape)
+        
+        #resize and normalize frames, then put into numpy array
+        for val in values:
+            img = cv2.resize(val, (112,112))
+            img = (img - 128.0)/ 128.0
+            buff[0, count] = img 
+            count += 1
+
+        # prep numpy array for pytorch format
+        buff = buff.transpose((0,4,1,2,3))
+
+        # frames through model
+        output = model(torch.from_numpy(buff))
+        prediction = torch.argmax(output)
+
+        # put prediction in prediction dictionary
+        classDict[key] = prediction.item()
+    
+    return classDict
+
 def load_classes(namesfile):
     fp = open(namesfile, "r")
     names = fp.read().split("\n")[:-1]
@@ -216,6 +286,9 @@ def detect_video(model, args):
         else:
             break
 
+    class_dict = action_input(objDict)
+    print(class_dict)
+
     end_time = datetime.now()
     print('Detection finished in %s' % (end_time - start_time))
     print('Total frames:', read_frames)
@@ -227,9 +300,6 @@ def detect_video(model, args):
 
     return
 
-def action_input():
-
-    return
 
 def main():
 
