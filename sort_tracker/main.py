@@ -179,8 +179,13 @@ def detect_video(model, args):
                 #print("output: ", tracking_boxes)
                 #print("-------------------NEW BOX-------------------------")
                 for tracking_box in tracking_boxes:
+                      
+                    # Save frames to dictionary (ObjDict)
+                    objDict[int(tracking_box[4])]=[ frame[int(tracking_box[0]):int(tracking_box[2]), int(tracking_box[1]):int(tracking_box[3]), : ] ] #Store frames here [x,y,w,h,channel]
+                    print(int(tracking_box[0]), int(tracking_box[2]), "T BOX")
+#                     for key, val in objDict.items():
+#                         print(key, val)
                     
-               
                     draw_mot_bbox(frame, torch.from_numpy(tracking_box), colors, classes)
                                         
                     if  args.map == True:
