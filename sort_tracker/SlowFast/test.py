@@ -21,8 +21,8 @@ def read_frames(filename):
         full = full.rstrip()
         # print(full)
         file_list.append(full)
-        if count >= 32:
-            break
+        #if count >= 32:
+        #    break
         count += 1
     
     buff = np.empty((1,len(file_list), 112, 112, 3), np.dtype('float32'))

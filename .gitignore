@@ -1,3 +1,4 @@
 *.pth.tar
 *.avi
+*.pyc
 sort_tracker/sort/filterpy/
