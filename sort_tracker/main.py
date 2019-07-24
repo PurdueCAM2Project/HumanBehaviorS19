@@ -105,7 +105,7 @@ def parse_args():
 
 def draw_mot_bbox(img, bbox, colors, classes):
     #img = imgs[int(bbox[0])]
-    # label = classes[int(bbox[-1])]
+    #label = classes[int(bbox[-1])]
     labelInt = int(bbox[-1])
     label = "Object " + str(labelInt)
     p1 = tuple(bbox[0:2].int())
@@ -126,9 +126,12 @@ def detect_video(model, args):
     
     if args.map == True:
         print("Mapping is on...")
+        
         if (args.corr is None or args.img is None):
             print ("ERROR: BOTH the -c and -i flag required with the -m flag")
             exit()
+        
+        imgcv = cv2.imread(args.img)
         pts_src = np.empty([0,2])
         pts_dst = np.empty([0,2])
 
@@ -264,12 +267,15 @@ def detect_video(model, args):
                         a = np.array([[xMid, y_bottom]], dtype='float32')
                         a = np.array([a])
                         ret = cv2.perspectiveTransform(a, h_matrix)
-                        print (ret)
-                        #cv2.line(imgcv, ret, ret, colors[tracking_box[-1]%len(colors)])
-                        exit()
+                        pt_a = ret[0][0][0]
+                        pt_b = ret[0][0][1]
+                        #print(pt_a,"  " ,pt_b,  "<-----------------------------")
+                        cv2.line(imgcv, (int(pt_a), int(pt_b)), (int(pt_a), int(pt_b)), colors[int(tracking_box[-1])%len(colors)], 2)
+                
 
                 #print("------------------END BOX--------------------------")
             out.write(frame)
+            cv2.imwrite("outputimgmap.png", imgcv)
 
             if read_frames % 30 == 0:
                     print('Number of frames processed:', read_frames)
