@@ -53,11 +53,11 @@ def draw_mot_bbox(img, bbox, colors, classes):
 
 def detect_video(model, args):
     objDict = dict() # dict for all objects and frames
-
+    
     if args.map == True:
         print("Mapping is on...")
         if (args.corr is None or args.img is None):
-            print ("ERROR: -c and -j flag required with the -m flag")
+            print ("ERROR: BOTH the -c and -i flag required with the -m flag")
             exit()
         pts_src = np.empty([0,2])
         pts_dst = np.empty([0,2])
@@ -70,9 +70,13 @@ def detect_video(model, args):
                 pts_src = np.append(pts_src, np.array([[int(splitLine[0]), int(splitLine[2])]]) , axis=0)
                 pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
                 
-            
-            h, status = cv2.findHomography(pts_src, pts_dst)
-                #imgcv = cv2.imread(args.map)
+    
+    #pts_src = np.array([[154, 174], [702, 349], [702, 572],[1, 572], [1, 191]])
+    #pts_dst = np.array([[212, 80],[489, 80],[505, 180],[367, 235], [144,153]])
+    h_matrix, status = cv2.findHomography(pts_src, pts_dst)
+    
+           
+               #imgcv = cv2.imread(args.map)
                 
                 #print('*********************')
                 #print(pts_src)
@@ -128,6 +132,8 @@ def detect_video(model, args):
 
             if len(detections) != 0:
                 detections = transform_result(detections, [frame], input_size)
+                #print (detections)
+                
                 #for detection in detections:
 
                 xywh = detections[:,1:5]
@@ -165,20 +171,24 @@ def detect_video(model, args):
                     # what exactly is read_frames
                     MOT16_temp = [xywh[i][0], xywh[i][1], xywh[i][2], xywh[i][3]]
                 """
+                
                 #print("bboxinput: ", MOT16_bbox)
+                #exit()
                 tracking_boxes = mot_tracker.update(MOT16_bbox)
 
                 #print("output: ", tracking_boxes)
                 #print("-------------------NEW BOX-------------------------")
                 for tracking_box in tracking_boxes:
-                    draw_mot_bbox(frame, torch.from_numpy(tracking_box), colors, classes)
                     
+               
+                    draw_mot_bbox(frame, torch.from_numpy(tracking_box), colors, classes)
+                                        
                     if  args.map == True:
                         xMid = (tracking_box[0]+tracking_box[2]) / 2
-                        yMid = (tracking_box[1]+tracking_box[3]) / 2 
-                        a = np.array([[xMid, yMid]], dtype='float32')
+                        y_bottom = (tracking_box[3]) 
+                        a = np.array([[xMid, y_bottom]], dtype='float32')
                         a = np.array([a])
-                        ret = cv2.perspectiveTransform(a, h)
+                        ret = cv2.perspectiveTransform(a, h_matrix)
                         print (ret)
                         #cv2.line(imgcv, ret, ret, colors[tracking_box[-1]%len(colors)])
                         exit()
