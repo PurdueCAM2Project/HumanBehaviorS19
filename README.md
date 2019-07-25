@@ -77,10 +77,10 @@ x<sub>n1</sub> y<sub>n1</sub> x<sub>n2</sub> y<sub>n2</sub></code>
 Here, each row contains two x-y coordinate pairs. In the example above, there are n correspondance points. For row number n, for example, <code>x<sub>n1</sub> y<sub>n1</sub></code> are the x-y pair for a point in the video frame, and the <code>x<sub>n2</sub> y<sub>n2</sub></code> are the x-y pair for the same point in the image containing the map.
 
 ## To Do:
-- [] Removing cars from detections
-- [] Retraining YOLO for small images of people
-- [] Integrating action detection
-- [] Completing the description in the readme
+- [ ] Removing cars from detections
+- [ ] Retraining YOLO for small images of people
+- [ ] Integrating action detection
+- [ ] Completing the description in the readme
 
 ## Authors
 - [Mohamad Alani](https://github.com/moealani)
