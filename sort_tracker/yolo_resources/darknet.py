@@ -137,7 +137,8 @@ def create_modules(blocks):
 
         elif block_type == 'upsample':
             stride = int(block['stride'])
-            module = nn.Upsample(scale_factor=stride, mode='bilinear')
+            #Changed nn.Upsample to interpolate, align coreners = true
+            module = nn.Upsample(scale_factor=stride, mode='bilinear')#, align_corners=True)
 
         # route block could have one or two indices. Negative value means relative index.
         elif block_type == 'route':
