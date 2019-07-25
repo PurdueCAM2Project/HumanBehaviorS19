@@ -2,7 +2,7 @@
 A human behavior analyzer package
 
 ## About
-This project is aimed at collecting data about human behavior through cameras. The current version is the initial implementation of the idea. The data collected includes location data for each person, based on the map provided, and actions performe by the person during those intervals. This data is present as a storyboard or a profile in the followuing format:
+This project is aimed at collecting data about human behavior through cameras. The current version is the initial implementation of the idea. The data collected includes location data for each person, based on the map provided, and actions performed by the person during those intervals. This output is returned as a storyboard or a profile in the following format:
 
 //Insert image containing the format of the profiles
 
@@ -76,6 +76,14 @@ x<sub>n1</sub> y<sub>n1</sub> x<sub>n2</sub> y<sub>n2</sub></code>
 
 Here, each row contains two x-y coordinate pairs. In the example above, there are n correspondance points. For row number n, for example, <code>x<sub>n1</sub> y<sub>n1</sub></code> are the x-y pair for a point in the video frame, and the <code>x<sub>n2</sub> y<sub>n2</sub></code> are the x-y pair for the same point in the image containing the map.
 
+## To Do:
+- [ ] Removing cars from detections
+- [ ] Retraining YOLO for small images of people
+- [X] Integrating action detection
+- [ ] Completing the description in the readme
+- [ ] Generation of Profiles
+- [ ] Making a progress bar
+- [ ] Obtaining timestamps online for storyboards 
 
 ## Authors
 - [Mohamad Alani](https://github.com/moealani)

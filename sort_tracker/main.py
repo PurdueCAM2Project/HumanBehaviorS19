@@ -14,6 +14,82 @@ import sys
 from datetime import datetime
 from sort.sort import *
 
+# SlowFast Imports
+import torch.backends.cudnn as cudnn
+from SlowFast.lib import slowfastnet
+import torchvision
+import cv2
+import numpy as np
+import torch
+from torch import nn, optim
+from config import params
+from collections import defaultdict as dd
+
+def openSlowFast():
+    print("Loading SlowFast Model")
+    """
+	Opens SlowFast Model
+	Return: SlowFast PyTorch model
+	"""
+
+	# load model
+    model = slowfastnet.resnet50(class_num=params['num_classes'])
+    # load pretrained weights into model
+    pretrained_dict = torch.load(params['pretrained'], map_location='cpu')
+    try:
+        model_dict = model.module.state_dict()
+    except AttributeError:
+        print("error when loading weights")
+        model_dict = model.state_dict()
+    pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
+    model_dict.update(pretrained_dict)
+    model.load_state_dict(model_dict)
+
+	# set gpu stuff? TODO: what does this actually do
+    model = model.cuda(params['gpu'][0])
+    model = nn.DataParallel(model, device_ids = params['gpu'])
+    return model
+
+def action_input(objDict):
+    classDict = dict() # dict for all objects and frames
+    # open pytorch model and set to eval mode
+    model = openSlowFast()
+    model.eval()
+
+    # for each list of frames in the objDict
+    for key, values in objDict.items():
+        # create a numpy array with all frames
+
+        count = 0
+
+        num_valid = 0
+        for val in values:
+            if (not (val.shape)[0] == 0) and (not (val.shape)[1] == 0):
+                num_valid += 1
+
+        if num_valid == 0: continue
+
+        buff = np.empty((1,num_valid,112,112,3), np.dtype('float32'))
+        #resize and normalize frames, then put into numpy array
+        for val in values:
+            if (val.shape)[0] == 0 or (val.shape)[1] == 0: continue
+            img = cv2.resize(val, (112,112))
+            img = (img - 128.0)/ 128.0
+            buff[0, count] = img
+            count += 1
+
+        # prep numpy array for pytorch format
+        buff = buff.transpose((0,4,1,2,3))
+
+        # frames through model
+        output = model(torch.from_numpy(buff))
+        prediction = torch.argmax(output)
+
+        # put prediction in prediction dictionary
+        classDict[key] = prediction.item()
+
+    return classDict
+
 def load_classes(namesfile):
     fp = open(namesfile, "r")
     names = fp.read().split("\n")[:-1]
@@ -42,7 +118,7 @@ def draw_mot_bbox(img, bbox, colors, classes):
     p2 = tuple(bbox[2:4].int())
 
     color = colors[labelInt % len(colors)] if labelInt is not None else colors[0]
-    
+
     cv2.rectangle(img, p1, p2, color, 2)
     text_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 1, 1)[0]
     p3 = (p1[0], p1[1] - text_size[1] - 4)
@@ -50,17 +126,16 @@ def draw_mot_bbox(img, bbox, colors, classes):
     cv2.rectangle(img, p3, p4, color, -1)
     cv2.putText(img, label, p1, cv2.FONT_HERSHEY_SIMPLEX, 1, [225, 255, 255], 1)
 
-
 def detect_video(model, args):
-    objDict = dict() # dict for all objects and frames
-    
+    objDict = dd(list) # dict for all objects and frames
+
     if args.map == True:
         print("Mapping is on...")
-        
+
         if (args.corr is None or args.img is None):
             print ("ERROR: BOTH the -c and -i flag required with the -m flag")
             exit()
-        
+
         imgcv = cv2.imread(args.img)
         pts_src = np.empty([0,2])
         pts_dst = np.empty([0,2])
@@ -72,24 +147,25 @@ def detect_video(model, args):
                 splitLine = line.split(' ')
                 pts_src = np.append(pts_src, np.array([[int(splitLine[0]), int(splitLine[2])]]) , axis=0)
                 pts_dst = np.append(pts_dst, np.array([[int(splitLine[1]), int(splitLine[3])]]) , axis=0)
-                
-    
+
+
     #pts_src = np.array([[154, 174], [702, 349], [702, 572],[1, 572], [1, 191]])
     #pts_dst = np.array([[212, 80],[489, 80],[505, 180],[367, 235], [144,153]])
-    h_matrix, status = cv2.findHomography(pts_src, pts_dst)
-    
-           
+        h_matrix, status = cv2.findHomography(pts_src, pts_dst)
+
+
                #imgcv = cv2.imread(args.map)
-                
+
                 #print('*********************')
                 #print(pts_src)
                 #print('-----------')
                 #print(pts_dst)
                 #print('*********************')
+        # draw_bbox([frame], detection, colors, classes)
 
 
 
-   # draw_bbox([frame], detection, colors, classes)
+
     input_size = [int(model.net_info['height']), int(model.net_info['width'])]
 
     colors = pkl.load(open("yolo_resources/pallete", "rb"))
@@ -121,14 +197,11 @@ def detect_video(model, args):
                 frame_tensor = frame_tensor.cuda()
 
             detections = model(frame_tensor, args.cuda).cpu()
+            for detection in detections:
+                if detection[-1] != 1:
 
-            #print(detections.shape)
 
-
-            #processresult changes the variable 'detections'
-            # print(detections)
-            #print(args.obj_thresh)
-            #print(args.nms_thresh)
+            
             detections = process_result(detections, 0.5, 0.4)
             cls_confs = detections[:, 6].cpu().data.numpy()
             cls_ids = detections[:, 7].cpu().data.numpy()
@@ -136,7 +209,7 @@ def detect_video(model, args):
             if len(detections) != 0:
                 detections = transform_result(detections, [frame], input_size)
                 #print (detections)
-                
+
                 #for detection in detections:
 
                 xywh = detections[:,1:5]
@@ -174,7 +247,7 @@ def detect_video(model, args):
                     # what exactly is read_frames
                     MOT16_temp = [xywh[i][0], xywh[i][1], xywh[i][2], xywh[i][3]]
                 """
-                
+
                 #print("bboxinput: ", MOT16_bbox)
                 #exit()
                 tracking_boxes = mot_tracker.update(MOT16_bbox)
@@ -182,18 +255,33 @@ def detect_video(model, args):
                 #print("output: ", tracking_boxes)
                 #print("-------------------NEW BOX-------------------------")
                 for tracking_box in tracking_boxes:
-                      
+
                     # Save frames to dictionary (ObjDict)
-                    objDict[int(tracking_box[4])]=[ frame[int(tracking_box[0]):int(tracking_box[2]), int(tracking_box[1]):int(tracking_box[3]), : ] ] #Store frames here [x,y,w,h,channel]
-                    print(int(tracking_box[0]), int(tracking_box[2]), "T BOX")
-#                     for key, val in objDict.items():
-#                         print(key, val)
-                    
+
+                    x1 = int(tracking_box[0])
+                    x2 = int(tracking_box[2])
+                    y1 = int(tracking_box[1])
+                    y2 = int(tracking_box[3])
+
+                    if x1 > width: x1 = width
+                    if x2 > width: x2 = width
+                    if y1 > height: y1 = height
+                    if y2 > height: y2 = height
+
+                    if x1 < 0: x1 = 0
+                    if x2 < 0: x2 = 0
+                    if y1 < 0: y1 = 0
+                    if y2 < 0: y2 = 0
+
+                    objDict[int(tracking_box[4])]+=[frame[y1:y2, x1:x2, :]] #Store frames here [x,y,w,h,channel]
+                    # for key, val in objDict.items():
+                    #     print(key, val)
+
                     draw_mot_bbox(frame, torch.from_numpy(tracking_box), colors, classes)
-                                        
+
                     if  args.map == True:
                         xMid = (tracking_box[0]+tracking_box[2]) / 2
-                        y_bottom = (tracking_box[3]) 
+                        y_bottom = (tracking_box[3])
                         a = np.array([[xMid, y_bottom]], dtype='float32')
                         a = np.array([a])
                         ret = cv2.perspectiveTransform(a, h_matrix)
@@ -201,26 +289,36 @@ def detect_video(model, args):
                         pt_b = ret[0][0][1]
                         #print(pt_a,"  " ,pt_b,  "<-----------------------------")
                         cv2.line(imgcv, (int(pt_a), int(pt_b)), (int(pt_a), int(pt_b)), colors[int(tracking_box[-1])%len(colors)], 2)
-                
+
 
                 #print("------------------END BOX--------------------------")
             out.write(frame)
-            cv2.imwrite("outputimgmap.png", imgcv)
+            #cv2.imwrite("outputimgmap.png", imgcv)
 
             if read_frames % 30 == 0:
+<<<<<<< HEAD
                 print('Number of frames processed:', read_frames)
                     
+=======
+                    print('Number of frames processed:', read_frames, end='\r',)
+
+>>>>>>> upstream/master
                     # Save frames into folders
                     # for v, k in objDict.items():
                     #     i = 0
                     #     for ks in k:
-                    #         path = "/home/shay/a/malani/cam2/HumanBehaviorS19/sort_tracker/" + str(v)
+                    #         path = "/home/shay/a/malani/HumanBehaviorS19/sort_tracker/" + str(v)
                     #         try: os.mkdir(path)
                     #         except: pass
-                    #         img = cv2.imwrite(os.path.join(path , str(i)+'.jpg'), ks)
+                    #         try:
+                    #             img = cv2.resize(ks, (112,112))
+                    #             cv2.imwrite(os.path.join(path , str(i)+'.jpg'), img)
+                    #         except: pass
                     #         i+=1
         else:
             break
+    class_dict = action_input(objDict)
+    print(class_dict)
 
     end_time = datetime.now()
     print('Detection finished in %s' % (end_time - start_time))
@@ -228,13 +326,7 @@ def detect_video(model, args):
     # print('MOT16_bbox: \n', MOT16_bbox)
     cap.release()
     out.release()
-
     print('Detected video saved to "output.avi"')
-
-    return
-
-def action_input():
-
     return
 
 def main():
