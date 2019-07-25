@@ -81,6 +81,8 @@ Here, each row contains two x-y coordinate pairs. In the example above, there ar
 - [ ] Retraining YOLO for small images of people
 - [ ] Integrating action detection
 - [ ] Completing the description in the readme
+- [ ] Generation of Profiles
+- [ ] Making a progress bar
 
 ## Authors
 - [Mohamad Alani](https://github.com/moealani)
