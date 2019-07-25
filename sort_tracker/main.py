@@ -296,13 +296,8 @@ def detect_video(model, args):
             #cv2.imwrite("outputimgmap.png", imgcv)
 
             if read_frames % 30 == 0:
-<<<<<<< HEAD
-                print('Number of frames processed:', read_frames)
-                    
-=======
                     print('Number of frames processed:', read_frames, end='\r',)
 
->>>>>>> upstream/master
                     # Save frames into folders
                     # for v, k in objDict.items():
                     #     i = 0
