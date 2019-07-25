@@ -176,7 +176,7 @@ def detect_video(model, args):
 
     width, height = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = cap.get(cv2.CAP_PROP_FPS)
-
+    total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
     #TODO: Change output path?
     out = cv2.VideoWriter("output.avi", fourcc, fps, (width, height))
@@ -197,8 +197,8 @@ def detect_video(model, args):
                 frame_tensor = frame_tensor.cuda()
 
             detections = model(frame_tensor, args.cuda).cpu()
-            for detection in detections:
-                if detection[-1] != 1:
+            #for detection in detections:
+               # if detection[-1] != 1:
 
 
             
@@ -296,8 +296,8 @@ def detect_video(model, args):
             #cv2.imwrite("outputimgmap.png", imgcv)
 
             if read_frames % 30 == 0:
-                    print('Number of frames processed:', read_frames, end='\r',)
-
+                print('Number of frames processed:', read_frames, ' Percent Done:', round((read_frames/total_frames * 100),2),'%', end='\r',)
+                    
                     # Save frames into folders
                     # for v, k in objDict.items():
                     #     i = 0
