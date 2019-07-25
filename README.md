@@ -79,7 +79,7 @@ Here, each row contains two x-y coordinate pairs. In the example above, there ar
 ## To Do:
 - [ ] Removing cars from detections
 - [ ] Retraining YOLO for small images of people
-- [ ] Integrating action detection
+- [X] Integrating action detection
 - [ ] Completing the description in the readme
 - [ ] Generation of Profiles
 - [ ] Making a progress bar
