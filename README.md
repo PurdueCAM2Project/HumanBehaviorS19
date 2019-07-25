@@ -2,7 +2,7 @@
 A human behavior analyzer package
 
 ## About
-This project is aimed at collecting data about human behavior through cameras. The current version is the initial implementation of the idea. The data collected includes location data for each person, based on the map provided, and actions performe by the person during those intervals. This data is present as a storyboard or a profile in the followuing format:
+This project is aimed at collecting data about human behavior through cameras. The current version is the initial implementation of the idea. The data collected includes location data for each person, based on the map provided, and actions performed by the person during those intervals. This output is returned as a storyboard or a profile in the following format:
 
 //Insert image containing the format of the profiles
 
