@@ -83,6 +83,7 @@ Here, each row contains two x-y coordinate pairs. In the example above, there ar
 - [ ] Completing the description in the readme
 - [ ] Generation of Profiles
 - [ ] Making a progress bar
+- [ ] Obtaining timestamps online for storyboards 
 
 ## Authors
 - [Mohamad Alani](https://github.com/moealani)
