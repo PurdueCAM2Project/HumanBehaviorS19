@@ -14,7 +14,7 @@ import sys
 from datetime import datetime
 from sort.sort import *
 
-# SlowFast imports
+# SlowFast Imports
 import torch.backends.cudnn as cudnn
 from SlowFast.lib import slowfastnet
 import torchvision
@@ -24,6 +24,10 @@ import torch
 from torch import nn, optim
 from config import params
 from collections import defaultdict as dd
+
+# Profile Imports
+import json
+from pprint import pprint as pp
 
 def openSlowFast():
     """
@@ -126,6 +130,7 @@ def draw_mot_bbox(img, bbox, colors, classes):
 
 def detect_video(model, args):
     objDict = dd(list) # dict for all objects and frames
+    coorsDict = dd(list)
 
     if args.map == True:
         print("GENERATING MAPPING ... ")
@@ -252,6 +257,9 @@ def detect_video(model, args):
 
                 #print("output: ", tracking_boxes)
                 #print("-------------------NEW BOX-------------------------")
+
+
+
                 for tracking_box in tracking_boxes:
 
                     # Save frames to dictionary (ObjDict)
@@ -285,6 +293,8 @@ def detect_video(model, args):
                         ret = cv2.perspectiveTransform(a, h_matrix)
                         pt_a = ret[0][0][0]
                         pt_b = ret[0][0][1]
+
+                        coorsDict[int(tracking_box[-1])].append([str(pt_a), str(pt_b)])
                         #print(pt_a,"  " ,pt_b,  "<-----------------------------")
                         cv2.line(imgcv, (int(pt_a), int(pt_b)), (int(pt_a), int(pt_b)), colors[int(tracking_box[-1])%len(colors)], 2)
 
@@ -320,18 +330,38 @@ def detect_video(model, args):
     print('DETECTED VIDEO SAVED TO "output.avi"')
     print("-----------------------------------\n")
 
-    print('RESULTS:\n')
-    class_dict = action_input(objDict)
+    # print(coorsDict, ' DICT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
-    for key, val in class_dict.items():
-        if val == 0:
-            action = "BIKING"
-        elif val == 1:
-            action = "SKATEBOARDING"
-        else:
-            action = "WALKING"
-        print("OBJECT " + str(key) + " IS " + action)
+    with open('profiles.json', 'w') as f:
+        class_dict = action_input(objDict)
+        profile_data = {}
+        profile_data['OBJECT'] = []
+        sorted(objDict.keys())
+        for key, val in class_dict.items():
+            if val == 0:
+                class_dict[key] = "BIKING"
+            elif val == 1:
+                class_dict[key] = "SKATEBOARDING"
+            else:
+                class_dict[key] = "WALKING"
 
+            if args.map == True:
+                profile_data['OBJECT'].append(
+                    {
+                        'ID': key,
+                        'ACTION': class_dict[key],
+                        'COORDINATES': coorsDict[key]
+                    }
+                )
+            else:
+                profile_data['OBJECT'].append(
+                    {
+                        'ID': key,
+                        'ACTION': class_dict[key]
+                    }
+                )
+
+        json.dump(profile_data, f, indent=2)
     return
 
 def main():
