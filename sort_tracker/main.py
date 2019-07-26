@@ -39,7 +39,6 @@ def openSlowFast():
     try:
         model_dict = model.module.state_dict()
     except AttributeError:
-        print("error when loading weights")
         model_dict = model.state_dict()
     pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
     model_dict.update(pretrained_dict)
@@ -130,7 +129,7 @@ def detect_video(model, args):
     objDict = dd(list) # dict for all objects and frames
 
     if args.map == True:
-        print("Mapping is on...")
+        print("GENERATING MAPPING ... ")
 
         if (args.corr is None or args.img is None):
             print ("ERROR: BOTH the -c and -i flag required with the -m flag")
@@ -201,7 +200,7 @@ def detect_video(model, args):
                # if detection[-1] != 1:
 
 
-            
+
             detections = process_result(detections, 0.5, 0.4)
             cls_confs = detections[:, 6].cpu().data.numpy()
             cls_ids = detections[:, 7].cpu().data.numpy()
@@ -296,8 +295,8 @@ def detect_video(model, args):
             #cv2.imwrite("outputimgmap.png", imgcv)
 
             if read_frames % 30 == 0:
-                print('Number of frames processed:', read_frames, ' Percent Done:', round((read_frames/total_frames * 100),2),'%', end='\r',)
-                    
+                print('PROCESSED FRAMES:', read_frames, ' PERCENT DONE:', round((read_frames/total_frames * 100),2),'%', end='\r',)
+
                     # Save frames into folders
                     # for v, k in objDict.items():
                     #     i = 0
@@ -312,16 +311,27 @@ def detect_video(model, args):
                     #         i+=1
         else:
             break
-    class_dict = action_input(objDict)
-    print(class_dict)
-
-    end_time = datetime.now()
-    print('Detection finished in %s' % (end_time - start_time))
-    print('Total frames:', read_frames)
+    print("\n-----------------------------------")
+    print('DETECTION FINISHED IN %s' % (end_time - start_time))
+    print('TOTAL FRAMES:', read_frames)
     # print('MOT16_bbox: \n', MOT16_bbox)
     cap.release()
     out.release()
-    print('Detected video saved to "output.avi"')
+    print('DETECTED VIDEO SAVED TO "output.avi"')
+    print("-----------------------------------\n")
+
+    print('RESULTS:\n')
+    class_dict = action_input(objDict)
+
+    for key, val in class_dict.items():
+        if val == 0:
+            action = "BIKING"
+        elif val == 1:
+            action = "SKATEBOARDING"
+        else:
+            action = "WALKING"
+        print("OBJECT " + str(key) + " IS " + action)
+
     return
 
 def main():
