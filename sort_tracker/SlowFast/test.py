@@ -84,6 +84,7 @@ def main():
         try:
             model_dict = model.module.state_dict()
         except AttributeError:
+            # print("err")
             model_dict = model.state_dict()
 
         pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
