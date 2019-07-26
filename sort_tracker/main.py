@@ -14,7 +14,7 @@ import sys
 from datetime import datetime
 from sort.sort import *
 
-# SlowFast Imports
+# SlowFast imports
 import torch.backends.cudnn as cudnn
 from SlowFast.lib import slowfastnet
 import torchvision
@@ -26,7 +26,6 @@ from config import params
 from collections import defaultdict as dd
 
 def openSlowFast():
-    print("Loading SlowFast Model")
     """
 	Opens SlowFast Model
 	Return: SlowFast PyTorch model
@@ -311,6 +310,7 @@ def detect_video(model, args):
                     #         i+=1
         else:
             break
+    end_time = datetime.now()
     print("\n-----------------------------------")
     print('DETECTION FINISHED IN %s' % (end_time - start_time))
     print('TOTAL FRAMES:', read_frames)
