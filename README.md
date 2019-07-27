@@ -55,12 +55,15 @@ optional arguments:
                         flag for adding a video input
   --cuda                flag for running on GPU
   -m, --map             flag from projecting people on a map
-  -i IMG, --img IMG     flag for adding a path to the image containing the map
+  -i IMG, --img IMG     flag for providing an imput map image to print the
+                        tracking results on
   -c CORR, --corr CORR  correspondance points for the map projection as a .txt
   ```
   
+NOTE: The -c flag is required with the -m flag, as it is necessary to generate the mapping. However the -i flag, along with the input image does not have to be provided. This -i flag is only for actually drawing the points onto the image of the map to get a visual representation, and is not necessary for generating the profiles
 
-Example Usage, for tracking people in a video, and then projecting it onto a 2-D map: (When inside the sort_tracker directory)
+
+Example Usage, for tracking people in a video, and then projecting it and printing it onto a 2-D map: (When inside the sort_tracker directory)
 
 ```python3 main.py --cuda -v input_video.avi -m -i map.jpg -c corr_points.txt ```
 
