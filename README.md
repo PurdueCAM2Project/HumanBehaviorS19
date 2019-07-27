@@ -2,7 +2,7 @@
 A human behavior analyzer package
 
 ## About
-This project is aimed at collecting data about human behavior through cameras. The current version is the initial implementation of the idea. The data collected includes location data for each person, based on the map provided, and actions performed by the person during those intervals. This output is returned as a storyboard or a profile in the following format:
+This project is aimed at collecting basic data about human behavior through cameras. The current version is the initial implementation of the idea. The data collected includes location data for each person (pixel coordinates), based on the map provided, and actions performed by the person in the video. This output is returned as a storyboard or a profile in a .json file in the following format:
 
 //Insert image containing the format of the profiles
 
@@ -78,6 +78,8 @@ x<sub>n1</sub> y<sub>n1</sub> x<sub>n2</sub> y<sub>n2</sub></code>
 </pre>
 
 Here, each row contains two x-y coordinate pairs. In the example above, there are n correspondance points. For row number n, for example, <code>x<sub>n1</sub> y<sub>n1</sub></code> are the x-y pair for a point in the video frame, and the <code>x<sub>n2</sub> y<sub>n2</sub></code> are the x-y pair for the same point in the image containing the map.
+
+For training the action detection using your own dataset, TensorBoardX is needed.
 
 ## To Do:
 - [ ] Removing cars from detections
