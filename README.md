@@ -20,13 +20,13 @@ It starts by tracking multiple pedestrians using SORT (Simple Online Realtime Tr
 
 | Package Name  | Version No.   |
 | ------------- | ------------- |
-| OpenCV  | 4.1.0  |
-|  NumPy | 1.15.4 |
-|   SciPy| 1.1.0 |
-|  FilterPy |1.1.0  |
-|  Numba | 0.39.0 |
-|   Scikit-Image | 0.14.0 |
-|  Scikit-Learn | 0.19.2 |
+|OpenCV|4.1.0|
+|NumPy|1.15.4|
+|SciPy|1.1.0|
+|FilterPy|1.1.0|
+|Numba|0.39.0|
+|Scikit-Image|0.14.0|
+|Scikit-Learn|0.19.2|
 |PyTorch|1.0.1|
 |TorchVision|0.2.1|
 |CudaToolKit|9.0|
