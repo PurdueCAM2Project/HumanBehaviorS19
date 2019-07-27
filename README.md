@@ -81,12 +81,12 @@ Here, each row contains two x-y coordinate pairs. In the example above, there ar
 
 ## To Do:
 - [ ] Removing cars from detections
-- [ ] Retraining YOLO for small images of people
+- [ ] Adding the dependencies and the requirements for action detection
 - [X] Integrating action detection
 - [ ] Completing the description in the readme
 - [X] Generation of Profiles
-- [ ] Making a progress bar
 - [ ] Obtaining timestamps online for storyboards 
+- [ ] Retraining YOLO for small images of people
 
 ## Authors
 - [Mohamad Alani](https://github.com/moealani)
