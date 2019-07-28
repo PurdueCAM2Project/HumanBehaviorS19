@@ -208,10 +208,14 @@ def detect_video(model, args):
 
 
             detections = process_result(detections, 0.5, 0.4)
-            cls_confs = detections[:, 6].cpu().data.numpy()
-            cls_ids = detections[:, 7].cpu().data.numpy()
+            #cls_confs = detections[:, 6].cpu().data.numpy()
+            #cls_ids = detections[:, 7].cpu().data.numpy()
 
             if len(detections) != 0:
+                cls_confs = detections[:, 6].cpu().data.numpy()
+                cls_ids = detections[:, 7].cpu().data.numpy()
+
+ 
                 detections = transform_result(detections, [frame], input_size)
                 #print (detections)
 
@@ -327,20 +331,26 @@ def detect_video(model, args):
             break
     end_time = datetime.now()
     print("\n-----------------------------------")
-    print('DETECTION FINISHED IN %s' % (end_time - start_time))
+    fps = float(read_frames/float((end_time - start_time).total_seconds())) 
+    print('DETECTION FINISHED IN ',(end_time - start_time),' WITH AN AVERAGE FPS OF {0:.2f}'.format(round(fps, 2)))
     print('TOTAL FRAMES:', read_frames)
     # print('MOT16_bbox: \n', MOT16_bbox)
     cap.release()
     out.release()
     print('DETECTED VIDEO SAVED TO "output.avi"')
     print("-----------------------------------\n")
+    """ 
+    class_dict = action_input(objDict)
+    for key,val in class_dict.items():
+        print("Object ", key, " is class id: ", val)
 
     # print(coorsDict, ' DICT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
 
+    """
     with open('profiles.json', 'w') as f:
         class_dict = action_input(objDict)
         profile_data = {}
-        profile_data['OBJECT'] = []
+        profile_data['OBJECTS'] = []
         sorted(objDict.keys())
         for key, val in class_dict.items():
             if val == 0:
@@ -351,7 +361,7 @@ def detect_video(model, args):
                 class_dict[key] = "WALKING"
 
             if args.map == True:
-                profile_data['OBJECT'].append(
+                profile_data['OBJECTS'].append(
                     {
                         'ID': key,
                         'ACTION': class_dict[key],
@@ -359,7 +369,7 @@ def detect_video(model, args):
                     }
                 )
             else:
-                profile_data['OBJECT'].append(
+                profile_data['OBJECTS'].append(
                     {
                         'ID': key,
                         'ACTION': class_dict[key]
@@ -367,6 +377,7 @@ def detect_video(model, args):
                 )
 
         json.dump(profile_data, f, indent=2)
+    
     return
 
 def main():
