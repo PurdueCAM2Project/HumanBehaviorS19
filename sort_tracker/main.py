@@ -244,13 +244,16 @@ def detect_video(model, args):
                 #new_ys = ys - hs/2
 
                 MOT16_bbox = np.empty((0,5))
-
+                #print(cls_ids)
+                
 
                 for cls_id, cls_conf, x,y,w,h in zip(cls_ids, cls_confs, xs, ys, ws, hs):
-                    #MOT16_temp = [read_frames, cls_id, x, y, w, h, cls_conf, -1, -1, -1]
-                    MOT16_temp = [x, y, w, h, cls_conf]
-                    np.set_printoptions(precision=2, linewidth=150)
-                    MOT16_bbox = np.append(MOT16_bbox, [MOT16_temp], axis=0)
+                    #print (cls_id)
+                    if int(cls_id) == 0:
+                        #MOT16_temp = [read_frames, cls_id, x, y, w, h, cls_conf, -1, -1, -1]
+                        MOT16_temp = [x, y, w, h, cls_conf]
+                        np.set_printoptions(precision=2, linewidth=150)
+                        MOT16_bbox = np.append(MOT16_bbox, [MOT16_temp], axis=0)
                 """
                 for i in range(num_dets):
                     # what exactly is read_frames
