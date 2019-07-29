@@ -138,10 +138,10 @@ def detect_video(model, args):
         if (args.corr is None):
             print ("ERROR: The -c flag is required with the -m flag")
             exit()
-        
+
         if args.img is not None:
             imgcv = cv2.imread(args.img)
-        
+
         pts_src = np.empty([0,2])
         pts_dst = np.empty([0,2])
 
@@ -215,7 +215,7 @@ def detect_video(model, args):
                 cls_confs = detections[:, 6].cpu().data.numpy()
                 cls_ids = detections[:, 7].cpu().data.numpy()
 
- 
+
                 detections = transform_result(detections, [frame], input_size)
                 #print (detections)
 
@@ -245,7 +245,7 @@ def detect_video(model, args):
 
                 MOT16_bbox = np.empty((0,5))
                 #print(cls_ids)
-                
+
 
                 for cls_id, cls_conf, x,y,w,h in zip(cls_ids, cls_confs, xs, ys, ws, hs):
                     #print (cls_id)
@@ -270,14 +270,11 @@ def detect_video(model, args):
 
 
                 for tracking_box in tracking_boxes:
-
                     # Save frames to dictionary (ObjDict)
-
-                    x1 = int(tracking_box[0])
-                    x2 = int(tracking_box[2])
-                    y1 = int(tracking_box[1])
-                    y2 = int(tracking_box[3])
-
+                    x1 = int(tracking_box[0]) - int(0.05 * height)
+                    x2 = int(tracking_box[2]) + int(0.05 * height)
+                    y1 = int(tracking_box[1]) - int(0.05 * width)
+                    y2 = int(tracking_box[3]) + int(0.05 * width)
                     if x1 > width: x1 = width
                     if x2 > width: x2 = width
                     if y1 > height: y1 = height
@@ -311,7 +308,7 @@ def detect_video(model, args):
 
                 #print("------------------END BOX--------------------------")
             out.write(frame)
-            
+
             if args.img is not None:
                 cv2.imwrite("outputimgmap.png", imgcv)
 
@@ -332,9 +329,24 @@ def detect_video(model, args):
                     #         i+=1
         else:
             break
+
+    # Save frames into folders
+    for v, k in objDict.items():
+        i = 0
+        for ks in k:
+            path = "/home/shay/a/malani/cam2/HumanBehaviorS19/sort_tracker/frames/" + str(v)
+            try: os.mkdir(path)
+            except: pass
+            try:
+                if i < 100:
+                    img = cv2.resize(ks, (112,112))
+                    cv2.imwrite(os.path.join(path , str(i)+'.jpg'), img)
+            except: pass
+            i+=1
+
     end_time = datetime.now()
     print("\n-----------------------------------")
-    fps = float(read_frames/float((end_time - start_time).total_seconds())) 
+    fps = float(read_frames/float((end_time - start_time).total_seconds()))
     print('DETECTION FINISHED IN ',(end_time - start_time),' WITH AN AVERAGE FPS OF {0:.2f}'.format(round(fps, 2)))
     print('TOTAL FRAMES:', read_frames)
     # print('MOT16_bbox: \n', MOT16_bbox)
@@ -342,7 +354,7 @@ def detect_video(model, args):
     out.release()
     print('DETECTED VIDEO SAVED TO "output.avi"')
     print("-----------------------------------\n")
-    """ 
+    """
     class_dict = action_input(objDict)
     for key,val in class_dict.items():
         print("Object ", key, " is class id: ", val)
@@ -380,7 +392,7 @@ def detect_video(model, args):
                 )
 
         json.dump(profile_data, f, indent=2)
-    
+
     return
 
 def main():
